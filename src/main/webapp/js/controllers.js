@@ -30,18 +30,19 @@ digitalbankingControllers.controller('loginCtrl', [
 			$scope.login = function() {
 				LoginService.Login($scope.User.username, $scope.User.password)
 						.success(function(data, status, headers, config) {
-							console.log(data);
+							//console.log(data);
 							$scope.authResult = data.authResult;
 							if ($scope.authResult == 'success') {
 								$rootScope.loggedinUser = User.username;
 								$rootScope.currentDate = new Date();
 								$location.path('/home');
+								$localStorage.applicationUrls = data.applicationConfigurationURLs;
 							}
 
 						}).error(function(data) {
 							$rootScope.loggedinUser = User.username;
 							$rootScope.currentDate = new Date();
-							$location.path('/home');
+							//$location.path('/home');
 						});
 			}
 		} ]);
@@ -197,8 +198,6 @@ digitalbankingControllers
 												"accountNo" : "XXXXXXX095",
 												"accountBalance" : "10,000"
 											} ];
-											// $scope.gridOptions = { data:
-											// 'accountsSummary' };
 										});
 							}
 						} ]);
@@ -247,8 +246,6 @@ digitalbankingControllers
 												"amountPaid" : "200000",
 												"loanBalance" : "500000"
 											} ];
-											// $scope.gridOptions = { data:
-											// 'accountsSummary' };
 										});
 							}
 						} ]);
@@ -312,7 +309,6 @@ digitalbankingControllers.controller('TransactionsSummaryController', [
 						"Amount" : "1500",
 						"DebitCredit" : "Cr"
 					} ];
-					// $scope.gridOptions = { data: 'accountsSummary' };
 				});
 			}
 		} ]);
@@ -369,3 +365,85 @@ digitalbankingControllers.controller('PayeeListController', [
 				});
 			}
 		} ]);
+
+digitalbankingControllers.controller('CardsSummaryController', [
+'$scope',
+'CardService',
+function($scope, CardService) {
+
+	$scope.cardSummary = {};
+	$scope.cardGridOptions = {
+		data : 'cardSummary',
+		columnDefs : [ {
+			field : 'cardNumber',
+			displayName : 'Card Number'
+		}, {
+			field : 'cardType',
+			displayName : 'Type'
+		}, {
+			field : 'balance',
+			displayName : 'Balance'
+		} ]
+	};
+	getCardSummary();
+	function getCardSummary() {
+		CardService.getCardSummary().success(
+				function(data, status, headers, config) {
+					if (data != null) {
+						$scope.cardSummary = data;
+
+					}
+				}).error(function() {
+			$scope.cardSummary = [ {
+				"cardNumber" : "xxxx-123",
+				"cardType" : "Debit",
+				"balance" : "27000"
+			}, {
+				"cardNumber" : "xxxx-234",
+				"cardType" : "Credit",
+				"balance" : "28000"
+			}];
+		});
+	}
+} ]);
+
+digitalbankingControllers.controller('InvestmentsSummaryController', [
+'$scope',
+'InvestmentService',
+function($scope, InvestmentService) {
+
+	$scope.investmentSummary = {};
+	$scope.investmentGridOptions = {
+		data : 'investmentSummary',
+		columnDefs : [ {
+			field : 'investmentType',
+			displayName : 'Investment Type'
+		}, {
+			field : 'investmentAmount',
+			displayName : 'Amount'
+		}, {
+			field : 'timeFor',
+			displayName : 'Total Time'
+		} ]
+	};
+	getInvestmentSummary();
+	function getInvestmentSummary() {
+		InvestmentService.getInvestmentSummary().success(
+				function(data, status, headers, config) {
+					if (data != null) {
+						$scope.investmentSummary = data;
+
+					}
+				}).error(function() {
+			$scope.investmentSummary = [ {
+				"investmentType" : "Fixed Deposit",
+				"investmentAmount" : "100000",
+				"timeFor" : "6"
+			}, {
+				"investmentType" : "Mutual Fund",
+				"investmentAmount" : "25000",
+				"timeFor" : "5"
+			}];
+		});
+	}
+} ]);

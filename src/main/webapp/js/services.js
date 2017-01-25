@@ -33,46 +33,65 @@ digitalbankingServices.factory('User', [function() {
 	return sdo;
 }]);
 
-digitalbankingServices.factory('AccountsService',['$http','$location','$rootScope', '$q', function($http, $location, $rootScope) {
+digitalbankingServices.factory('AccountsService',['$http','$location','$rootScope', '$localStorage', function($http, $location, $rootScope,$localStorage) {
 
     var service = {};
     service.getAccountSummary = function() {  
-    	 return $http.get('/accservices/556677/accounts');
+    	 return $http.get($localStorage.applicationUrls.accSummaryUrl);
     };
 
     return service;
 }]);
 
-digitalbankingServices.factory('LoanService',['$http','$location','$rootScope', '$q', function($http, $location, $rootScope) {
+digitalbankingServices.factory('LoanService',['$http','$location','$rootScope', '$localStorage', function($http, $location, $rootScope,$localStorage) {
 
     var service = {};
     service.getLoanSummary = function() {  
-    	 return $http.get('/loanservices/1/loans');
+    	 return $http.get($localStorage.applicationUrls.loanSummaryUrl);
     };
 
     return service;
 }]);
 
-digitalbankingServices.factory('TransactionService',['$http','$location','$rootScope', '$q', function($http, $location, $rootScope) {
+digitalbankingServices.factory('TransactionService',['$http','$location','$rootScope', '$localStorage', function($http, $location, $rootScope, $localStorage) {
 
     var service = {};
     service.getTransactionDetails = function() {  
-    	 return $http.get('/txnservices/1000/accounts');
+    	 return $http.get($localStorage.applicationUrls.transactionDetailsUrl);
     };
 
     return service;
 }]);
 
-digitalbankingServices.factory('PayeeService',['$http','$location','$rootScope', '$q', function($http, $location, $rootScope) {
+digitalbankingServices.factory('PayeeService',['$http','$location','$rootScope', '$localStorage', function($http, $location, $rootScope, $localStorage) {
 
     var service = {};
     service.getPayeeList = function() {  
-    	 return $http.get('/accservices/556677/accounts');
+    	 return $http.get($localStorage.applicationUrls.payeeListUrl);
     };
 
     return service;
 }]);
 
+digitalbankingServices.factory('CardService',['$http','$location','$rootScope', '$localStorage', function($http, $location, $rootScope, $localStorage) {
+
+    var service = {};
+    service.getCardSummary = function() {  
+    	 return $http.get($localStorage.applicationUrls.cardSummaryUrl);
+    };
+
+    return service;
+}]);
+
+digitalbankingServices.factory('InvestmentService',['$http','$location','$rootScope', '$localStorage', function($http, $location, $rootScope, $localStorage) {
+
+    var service = {};
+    service.getInvestmentSummary = function() {  
+    	 return $http.get($localStorage.applicationUrls.investmentSummaryUrl);
+    };
+
+    return service;
+}]);
 
 
 /*digitalbankingServices.factory('userService',['$rootScope',function($rootScope){
