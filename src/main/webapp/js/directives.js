@@ -78,3 +78,11 @@ digitalbankingDirectives.directive('payeeListDirective',  function(){
 		controller: 'PayeeListController'
 	}
 });
+
+digitalbankingDirectives.directive('payeeListDirective',  function(){
+	return {
+		restrict:'E',
+		templateUrl: 'includes/PayeeList.html',
+		controller: 'PayeeListController'
+	}
+});

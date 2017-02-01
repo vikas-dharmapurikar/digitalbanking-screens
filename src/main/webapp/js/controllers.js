@@ -213,10 +213,25 @@ digitalbankingControllers
 							$scope.loanSummary = {};
 							$scope.loanGridOptions = {
 								data : 'loanSummary',
-								columnDefs : [
+								columnDefs : [{
+											field : 'loanAccountNumber',
+											displayName : 'Loan Account Number'
+										},
 										{
 											field : 'loanType',
 											displayName : 'Loan Type'
+										},
+										{
+											field : 'loanStatus',
+											displayName : 'Loan Status'
+										},
+										{
+											field : 'duration',
+											displayName : 'Duration'
+										},
+										{
+											field : 'rateOfInterest',
+											displayName : 'Interest Rate'
 										},
 										{
 											field : 'amount',
