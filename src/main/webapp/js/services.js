@@ -93,41 +93,18 @@ digitalbankingServices.factory('InvestmentService',['$http','$location','$rootSc
     return service;
 }]);
 
-
-/*digitalbankingServices.factory('userService',['$rootScope',function($rootScope){
-	var service={
-			model:{
-				firstName:'',
-				lastName:'',
-				username:'',
-				password:'',
-				confirmPassword:''
-			},
-			
-			SaveData:function(){
-				if(password==confirmPassword){
-					sessionStorage.userService=angular.toJson(service.model);
-				}
-				else
-					{
-						console.log('Password doesnot match');
-					}
-			},
-			RestoreData:function(){
-				service.model=angular.formJson(sessionStorage.userService);
-			},
-			ResetData:function(){
-				
-			}
+digitalbankingServices.factory('RegistrationService',['$http','$location','$rootScope','$q',function($http, $location, $roorScope){
+		var service={};
+		service.postUserDetails=function(userData){
+			return $http.post('/authservices/user/authentication');
 		}
-	
-		$rootScope.$on('savedata',service.SaveData);
-		$rootScope.$on('restoredata',service.RestoreData);
-		
 		return service;
 }]);
 
-digitalbankingServices.factory('passwordChangeService',['$rootScope',function($rootScope){
-	
+digitalbankingServices.factory('ForgotPasswordService',['$http','$location','$rootScope','$q',function($http,$location,$rootScope){
+	var service={};
+	service.postForgotPasswordDetails=function(userData){
+		return $http.post('/authservices/user/forgotPasswordData');
+	}
+	return service;
 }]);
-*/

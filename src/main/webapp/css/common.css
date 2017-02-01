@@ -263,3 +263,7 @@ li.dropdown:hover > .dropdown-menu {
 	font-size:10;
 	color: #a6a6a6;
 }
+.form-validation-error{
+	color: red;
+    font-size: small;
+}

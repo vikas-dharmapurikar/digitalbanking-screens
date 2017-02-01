@@ -51,51 +51,69 @@ digitalbankingControllers
 		.controller(
 				'RegistrationController',
 				[
+						'RegistrationService',
 						'$scope',
 						'$location',
-						function($scope, $location) {
+						function(RegistrationService,$scope, $location) {
 							$scope.acc_infotab = true;
 							$scope.auth_infotab = false;
 							$scope.userIdtab = false;
 							$scope.passwordtab = false;
-
-							$scope.creditCardNum = '';
-							$scope.cvvNum = '';
-							$scope.pincode = '';
-							$scope.CreditExpDate = '';
-							$scope.dob = '';
-							$scope.debitCardNum = '';
-							$scope.userId = '';
-							$scope.userPassword = '';
-							$scope.confirmPassword = '';
-
+							
+							$scope.registrationData={
+									accountType : '',
+									cardNum:{
+										part1:'',
+										part2:'',
+										part3:'',
+										part4:''
+										},
+									cvvNum:'',
+									pincode:'',
+									expDate:'',
+									dob:'',
+									otp:'',
+									userId:'',
+									userPassword:''
+							}
+							$scope.confirmPassword='';
 							$scope.isMatch = false;
 							$scope.isValidPassword = false;
-							$scope.comparePasswords = function() {
-								if ($scope.userPassword == $scope.confirmPassword) {
+							
+							$scope.registerMethod=function(){
+								if ($scope.registrationData.userPassword == $scope.confirmPassword) {
 									$scope.isMatch = false;
 									$location.path('/');
+									RegistrationService.postUserDetails($scope.registrationData)
+									.success(function(data,status,headers, config){
+										console.log(data);
+									}).error(function(data){
+										console.log('hard coded data');
+										console.log($scope.registrationData);
+									})
+									
+								} else {
+									$scope.isMatch = true;
+								}
+								
+							}
+							
+							$scope.comparePasswords = function() {
+								if (registrationData.userPassword == $scope.confirmPassword) {
+									$scope.isMatch = false;
+									$location.path('/');
+									console.log($scope.registrationData);
 								} else {
 									$scope.isMatch = true;
 								}
 							}
-							$scope.validatePassword = function(value) {
-								var strongRegEx = new RegExp(
-										"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])");
-								if ($scope.strongRegEx == $scope.value) {
-									$scope.isValidPassword = true;
-								} else {
-									$scope.isValidPassword = false;
-								}
-								console.log($scope.isValidPassword);
-							}
 
-							$scope.accountInfo = '';
+							
 							$scope.showCredit = function() {
-								if ($scope.accountInfo == 'credit') {
+								if ($scope.registrationData.accountType == 'credit') {
 									$scope.credit = true;
 									$scope.banking = false;
-								} else if ($scope.accountInfo == 'banking') {
+								} else if ($scope.registrationData.accountType == 'banking') {
 									$scope.credit = false;
 									$scope.banking = true;
 								} else {
@@ -125,14 +143,38 @@ digitalbankingControllers
 
 						} ]);
 
-digitalbankingControllers.controller('PasswordChangeController', [ '$scope',
-		function($scope) {
-			var user = {
+digitalbankingControllers.controller('PasswordChangeController', [ '$scope','ForgotPasswordService','$location',
+		function($scope,ForgotPasswordService,$location) {
+			$scope.userForgotPasswordData = {
 				username : '',
 				oldPassword : '',
 				newPassword : '',
 				confirmPassword : '',
 			}
+			$scope.isMatch = false;
+			
+			$scope.forgotPasswordMethod=function(){
+				if($scope.userForgotPasswordData.newPassword==$scope.userForgotPasswordData.confirmPassword){
+					$scope.isMatch = false;
+					ForgotPasswordService.postForgotPasswordDetails($scope.userForgotPasswordData)
+					.success(function(data,status,headers,config){
+						console.log(data);
+					}).error(function(data){
+						console.log('temparory data');
+						console.log($scope.userForgotPasswordData);
+					})
+				}
+				else
+					$scope.isMatch = true;
+					//alert('passwords doesnot match');
+			}
+			$scope.reset=function(){
+				var original=$scope.userForgotPasswordData;
+				//console.log(original);
+				$scope.userForgotPasswordData=angular.copy({},original);
+				console.log($scope.userForgotPasswordData);
+			}
+			
 		} ]);
 
 digitalbankingControllers.controller('HomeController', [ '$scope',
